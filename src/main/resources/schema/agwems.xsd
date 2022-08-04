@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           targetNamespace="http://agwems.kt.com/"
+           xmlns:tns="http://agwems.kt.com/"
+           elementFormDefault="qualified">
+
+
+    <xs:element name="monitorDN" xmlns:tns="http://agwems.kt.com/">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name= "parameters" type="tns:monitorDNReqVo"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="verifyDN" xmlns:tns="http://agwems.kt.com/">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="parameters" type="tns:verifyDNReqVo"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="unmonitorDN" xmlns:tns="http://agwems.kt.com/">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="parameters" type="tns:commonReqVo"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="checkLine" xmlns:tns="http://agwems.kt.com/">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="parameters" type="tns:commonReqVo"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="checkLineResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="return" type="tns:resultVo"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="unmonitorDNResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="return" type="tns:resultVo"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="verifyDNResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="return" type="tns:verifyDNResVo"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="monitorDNResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="return" type="tns:resultVo"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="commonReqVo">
+        <xs:sequence>
+            <xs:element name="cmi" type="tns:commonMeasInfo" minOccurs="0"/>
+            <xs:element name="eventTime" type="xs:string" minOccurs="0"/>
+            <xs:element name="reqId" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="commonMeasInfo">
+        <xs:sequence>
+            <xs:element name="agwIp" type="xs:string" minOccurs="0"/>
+            <xs:element name="apsIp" type="xs:string" minOccurs="0"/>
+            <xs:element name="colcode" type="xs:string" minOccurs="0"/>
+            <xs:element name="emsIp" type="xs:string" minOccurs="0"/>
+            <xs:element name="endTime" type="xs:string" minOccurs="0"/>
+            <xs:element name="exId" type="xs:string" minOccurs="0"/>
+            <xs:element name="flcYn" type="xs:string" minOccurs="0"/>
+            <xs:element name="flln" type="xs:int"/>
+            <xs:element name="lln" type="xs:int"/>
+            <xs:element name="manufacturer" type="xs:string" minOccurs="0"/>
+            <xs:element name="mgid" type="xs:string" minOccurs="0"/>
+            <xs:element name="model" type="xs:string" minOccurs="0"/>
+            <xs:element name="pctIp" type="xs:string" minOccurs="0"/>
+            <xs:element name="pots" type="xs:string" minOccurs="0"/>
+            <xs:element name="pstnLen" type="xs:string" minOccurs="0"/>
+            <xs:element name="startTime" type="xs:string" minOccurs="0"/>
+            <xs:element name="v52Yn" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="resultVo">
+        <xs:sequence>
+            <xs:element name="resultCode" type="xs:int"/>
+            <xs:element name="resultMessage" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="monitorDNReqVo">
+        <xs:sequence>
+            <xs:element name="crv" type="tns:commonReqVo" minOccurs="0"/>
+            <xs:element name="trsSvrIp" type="xs:string" minOccurs="0" xsi:noNamespaceSchemaLocation="http://agwems.kt.com/"/>
+            <xs:element name="trsSvrPort" type="xs:int" xsi:noNamespaceSchemaLocation="http://agwems.kt.com/"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="verifyDNReqVo">
+        <xs:sequence>
+            <xs:element name="crv" type="tns:commonReqVo" minOccurs="0"/>
+            <xs:element name="tryDn" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="verifyDNResVo">
+        <xs:sequence>
+            <xs:element name="afi" type="tns:agwFacilityInfo" minOccurs="0"/>
+            <xs:element name="resultVo" type="tns:resultVo" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="agwFacilityInfo">
+        <xs:sequence>
+            <xs:element name="agwIp" type="xs:string" minOccurs="0"/>
+            <xs:element name="colcode" type="xs:string" minOccurs="0"/>
+            <xs:element name="emsIp" type="xs:string" minOccurs="0"/>
+            <xs:element name="flln" type="xs:int"/>
+            <xs:element name="lln" type="xs:int"/>
+            <xs:element name="manufacturer" type="xs:string" minOccurs="0"/>
+            <xs:element name="mgid" type="xs:string" minOccurs="0"/>
+            <xs:element name="model" type="xs:string" minOccurs="0"/>
+            <xs:element name="pots" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+</xs:schema>
