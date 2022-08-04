@@ -40,8 +40,7 @@ public class IpcService {
     @Value("${ipc.srcPrcs}") //Hexa String(별도 정의)(8)
     String srcPrcs;
 
-    public VerifyDNResponse verifyDNResponse(VerifyDNReqVo verifyDNReq){
-        VerifyDNResponse response = new VerifyDNResponse();
+    public VerifyDNResVo verifyDNResponse(VerifyDNReqVo verifyDNReq){
         VerifyDNResVo verifyReturn = new VerifyDNResVo();
         verifyReturn.setAfi(agwFacilityInfoSet(verifyDNReq.getCrv().getCmi()));
         //Command Setting || CALLG CH ACT|DEACT tryDn
@@ -60,8 +59,7 @@ public class IpcService {
         if (StringUtils.isEmpty(tId)) {
 //            verifyReturn.setAfi(agwFacilityInfoSet(verifyDN.getParameters().getCrv().getCmi()));
             verifyReturn.setResultVo(tIdNull());
-            response.setReturn(verifyReturn);
-            return response;
+            return verifyReturn;
         }
         //ResContents GET
         String result = ipcRequestSet(tId, command, ResContents.verifyDN);
@@ -71,17 +69,15 @@ public class IpcService {
 
             //CALLG_RES BUSY|OK -> BUSY|OK
             verifyReturn.setResultVo(resultVoSet(result, ResContents.verifyDN));
-            response.setReturn(verifyReturn);
+            return verifyReturn;
         }
         else{
             verifyReturn.setResultVo(timeOut(result));
-            response.setReturn(verifyReturn);
+            return verifyReturn;
         }
-
-        return response;
     }
 
-    public MonitorDNResponse monitorDNResponse(MonitorDNReqVo monitorDNReq){
+    public ResultVo monitorDNResponse(MonitorDNReqVo monitorDNReq){
         log.info("### MonitorDN ###");
 //        log.info("### MonitorDN ###: {}", monitorDN.getParameters());
 //        log.info("### MonitorDN ###: {}", monitorDN.getParameters().getCrv().getCmi());
@@ -89,7 +85,6 @@ public class IpcService {
 //        log.info("### MonitorDN ###: {}", monitorDN.getParameters());
 //        log.info("### MonitorDN ###: {}", monitorDN.getParameters());
 
-        MonitorDNResponse response = new MonitorDNResponse();
         //Command Setting || VQMON CH ACT trsSvrlp trsSvrPort reqID
         String command = String.format(ReqCommand.monitorDN.getFormat()
                 , ReqCommand.monitorDN.getCommand()
@@ -107,8 +102,7 @@ public class IpcService {
         //DB에서 장비 TID 조회
         String tId = getTid(monitorDNReq.getCrv().getCmi().getFlln(), monitorDNReq.getCrv().getCmi().getColcode(), monitorDNReq.getCrv().getCmi().getAgwIp());
         if (StringUtils.isEmpty(tId)) {
-            response.setReturn(tIdNull());
-            return response;
+            return tIdNull();
         }
         //ResContents GET
         String result = ipcRequestSet(tId, command, ResContents.monitorDN);
@@ -118,11 +112,10 @@ public class IpcService {
             //수신 데이터 Rdis에 저장
             monitorDNRedisSave(tId, monitorDNReq);
             //VQMON_RES OK -> OK
-            response.setReturn(resultVoSet(result, ResContents.monitorDN));
+            return resultVoSet(result, ResContents.monitorDN);
         }else{
-            response.setReturn(timeOut(result));
+            return timeOut(result);
         }
-        return response;
     }
 
     public ResultVo unmonitorDNResponse(CommonReqVo commonReqVo){

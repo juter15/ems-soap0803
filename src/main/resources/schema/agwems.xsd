@@ -6,14 +6,14 @@
            elementFormDefault="qualified">
 
 
-    <xs:element name="monitorDN" xmlns:tns="http://agwems.kt.com/">
+    <xs:element name="monitorDN">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name= "parameters" type="tns:monitorDNReqVo"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-    <xs:element name="verifyDN" xmlns:tns="http://agwems.kt.com/">
+    <xs:element name="verifyDN">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="parameters" type="tns:verifyDNReqVo"/>
@@ -22,7 +22,7 @@
     </xs:element>
 
 
-    <xs:element name="unmonitorDN" xmlns:tns="http://agwems.kt.com/">
+    <xs:element name="unmonitorDN">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="parameters" type="tns:commonReqVo"/>
@@ -31,7 +31,7 @@
     </xs:element>
 
 
-    <xs:element name="checkLine" xmlns:tns="http://agwems.kt.com/">
+    <xs:element name="checkLine">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="parameters" type="tns:commonReqVo"/>
