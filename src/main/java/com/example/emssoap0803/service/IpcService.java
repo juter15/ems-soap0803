@@ -43,6 +43,7 @@ public class IpcService {
     public VerifyDNResVo verifyDNResponse(VerifyDNReqVo verifyDNReq){
         VerifyDNResVo verifyReturn = new VerifyDNResVo();
         verifyReturn.setAfi(agwFacilityInfoSet(verifyDNReq.getCrv().getCmi()));
+        // Mail : Fw: RE: RE: RE: RE: [AGW EMS] 통화품질 모니터링 기능 동작 문의
         //Command Setting || CALLG CH ACT|DEACT tryDn
         String command = String.format(ReqCommand.verifyDN.getFormat()
                 , ReqCommand.verifyDN.getCommand()
@@ -121,6 +122,12 @@ public class IpcService {
     public ResultVo unmonitorDNResponse(CommonReqVo commonReqVo){
         // 취소전 Redis에 들어있는 monitorDN GET
         MonitorDnDataModel monitor = redisService.monitorDataGet(commonReqVo.getCmi().getColcode());
+        if(ObjectUtils.isEmpty(monitor)){
+            ResultVo resultVo = new ResultVo();
+            resultVo.setResultCode(1);
+            resultVo.setResultMessage("등록된 품질측정 요청이 없습니다.");
+            return resultVo;
+        }
         log.info("### unmonitorDB GET MonitorDN: {}", monitor);
         UnmonitorDNResponse response = new UnmonitorDNResponse();
 
@@ -130,8 +137,8 @@ public class IpcService {
                 , IpcUtil.getCh(commonReqVo.getCmi().getFlln(), commonReqVo.getCmi().getLln())
                 , Status.DEACT.name()
                 , monitor.getTrsSvrIp()
-                , commonReqVo.getReqId()
                 , monitor.getTrsSvrPor()
+                , commonReqVo.getReqId()
                 //,  0x7fffffff
 
         );
@@ -187,11 +194,13 @@ public class IpcService {
             ResultVo resultVo = new ResultVo();
             //감시 상태 확인
             // OG ??
-            if (!checkLineResult.contains("STOP") &&
-                    !checkLineResult.contains("BUSY") &&
-                    !checkLineResult.contains("HOOKOFF_FAIL") &&
-                    !checkLineResult.contains("NK") &&
-                    !checkLineResult.contains("ALREADY")) {
+            if (
+//                    !checkLineResult.contains("STOP") &&
+//                    !checkLineResult.contains("BUSY") &&
+//                    !checkLineResult.contains("HOOKOFF_FAIL") &&
+                    !checkLineResult.contains("NK")
+//                    !checkLineResult.contains("ALREADY")
+                    ) {
                 resultVo.setResultCode(0);
 //                resultVo.setResultMessage(checkLineResult);
             } else {

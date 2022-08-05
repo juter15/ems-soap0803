@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.example</groupId>
     <artifactId>ems-soap</artifactId>
-    <version>0804</version>
+    <version>0805</version>
     <name>ems-soap</name>
     <description>ems-soap</description>
     <properties>
